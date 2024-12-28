@@ -67,6 +67,6 @@ The AntFarm Simulation project demonstrates various design patterns in C++:
 
 ## Certificates
 
-- [Course Completion Certificate 1](certificates/course_certificate_1.pdf)
-- [Course Completion Certificate 2](certificates/course_certificate_2.pdf)
-- [Course Completion Certificate 3](certificates/course_certificate_3.pdf)
+- (1. CertificateOfCompletion_C Design Patterns Structural.pdf)
+- (2. CertificateOfCompletion_C Design Patterns Behavioral.pdf)
+- (3. CertificateOfCompletion_C Design Patterns Creational.pdf)
