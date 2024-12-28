@@ -39,7 +39,7 @@ public:
 
     void rest() {
         restCounter++;
-        if (restCounter >= 10) { // Rest threshold
+        if (restCounter >= 10) { 
             cout << type << " ant is resting and consuming food.\n";
             restCounter = 0;
         }
@@ -102,13 +102,13 @@ public:
         }
     }
     virtual int getConstructionTime() const { return constructionTime; }
-    virtual void performConstruction(int workers) = 0; // New pure virtual method
+    virtual void performConstruction(int workers) = 0;
     virtual ~AntRoom() {}
 };
 
 class SpawningRoom : public AntRoom {
 public:
-    SpawningRoom() { constructionTime = 50; } // Example construction time
+    SpawningRoom() { constructionTime = 50; }
 
     void performAction() override {
         cout << "SpawningRoom is spawning ants.\n";
@@ -122,7 +122,7 @@ public:
 
 class RestingRoom : public AntRoom {
 public:
-    RestingRoom() { constructionTime = 30; } // Example construction time
+    RestingRoom() { constructionTime = 30; }
 
     void performAction() override {
         cout << "RestingRoom is allowing ants to rest.\n";
@@ -149,8 +149,8 @@ private:
     bool isActive = true;
     int antKills = 0;
     int colonyKills = 0;
-    vector<int> defeatedColonies; // Store defeated colonies
-    int ticksAlive = 0; // Track the number of ticks alive
+    vector<int> defeatedColonies;
+    int ticksAlive = 0;=
 
     // Add bonuses for species
     void applySpeciesBonus() {
@@ -194,7 +194,7 @@ public:
         }
 
         AntFarm* build() {
-            antFarm->applySpeciesBonus(); // Apply species bonus
+            antFarm->applySpeciesBonus();
             return antFarm;
         }
     };
@@ -208,11 +208,11 @@ public:
             food += amount;
         } else if (type == "water") {
             water += amount;
-        } else if (type == "warrior") { // New handling for warriors
+        } else if (type == "warrior") {
             for (int i = 0; i < amount; ++i) {
                 addAnt(AntFactory::createAnt("Warrior"));
             }
-        } else if (type == "drone") { // New handling for drones
+        } else if (type == "drone") {
             for (int i = 0; i < amount; ++i) {
                 addAnt(AntFactory::createAnt("Drone"));
             }
@@ -238,17 +238,17 @@ public:
         random_device rd;
         mt19937 g(rd());
 
-        shuffle(ants.begin(), ants.end(), g); // Randomize ant order
+        shuffle(ants.begin(), ants.end(), g);
 
         int restingCapacity = 0;
         int workerCount = 0;
 
         for (const auto& room : rooms) {
             if (dynamic_cast<RestingRoom*>(room.get())) {
-                restingCapacity += 5; // Example capacity per resting room
+                restingCapacity += 5;
             }
             if (room->getConstructionTime() > 0) {
-                workerCount += 5; // Example workers per room
+                workerCount += 5;
             }
         }
 
@@ -258,7 +258,7 @@ public:
                 ant->rest();
                 restingAnts++;
             } else {
-                break; // Stop resting once capacity is reached
+                break;
             }
         }
 
@@ -297,7 +297,6 @@ public:
     }
 
     if (myAnt == nullptr || theirAnt == nullptr) {
-        // If no queen is found, default to the last ant
         myAnt = ants.back().get();
         theirAnt = other->ants.back().get();
     }
@@ -308,25 +307,25 @@ public:
         cout << "Colony " << id << " wins the battle against Colony " << other->id << "!\n";
         myAnt->setAttributes(myAnt->getStrength() + theirAnt->getStrength(), myAnt->getEfficiency() + theirAnt->getEfficiency());
         other->ants.pop_back();
-        incrementAntKills(); // Increment ant kills for the winning colony
+        incrementAntKills();
 
         if (theirAnt->getType() == "Queen") {
             cout << "Queen of colony " << other->id << " is defeated. Deactivating colony.\n";
-            other->deactivate(); // Deactivate if queen killed
-            incrementColonyKills(other->getId()); // Increment colony kills for the winning colony
-            mergeColonies(other); // Merge colonies
+            other->deactivate();
+            incrementColonyKills(other->getId());
+            mergeColonies(other);
         }
     } else {
         cout << "Colony " << other->id << " wins the battle against Colony " << id << "!\n";
         theirAnt->setAttributes(theirAnt->getStrength() + myAnt->getStrength(), theirAnt->getEfficiency() + myAnt->getEfficiency());
         ants.pop_back();
-        other->incrementAntKills(); // Increment ant kills for the winning colony
+        other->incrementAntKills();
 
         if (myAnt->getType() == "Queen") {
             cout << "Queen of colony " << id << " is defeated. Deactivating colony.\n";
-            deactivate(); // Deactivate if queen killed
-            other->incrementColonyKills(id); // Increment colony kills for the winning colony
-            other->mergeColonies(this); // Merge colonies
+            deactivate();
+            other->incrementColonyKills(id);
+            other->mergeColonies(this);
         }
     }
 }
@@ -366,7 +365,7 @@ public:
         cout << " (";
         for (size_t i = 0; i < defeatedColonies.size(); ++i) {
             int defeatedColonyId = defeatedColonies[i];
-            cout << defeatedColonyId << ":" << colonyNames[defeatedColonyId]; // Include colony names
+            cout << defeatedColonyId << ":" << colonyNames[defeatedColonyId];
             if (i < defeatedColonies.size() - 1) {
                 cout << " ";
             }
@@ -422,14 +421,12 @@ public:
             farm->performTickActions();
         }
 
-        // Increment ticks alive for each colony
         for (auto& farm : antFarms) {
             if (farm->isColonyActive()) {
                 farm->incrementTicksAlive();
             }
         }
 
-        // Check end condition: only one active colony left
         int activeColonies = count_if(antFarms.begin(), antFarms.end(), [](const unique_ptr<AntFarm<Ant>>& farm) {
             return farm->isColonyActive();
         });
@@ -455,8 +452,7 @@ int main() {
     string command;
     cout << "AntFarm Simulation started. Enter commands (type 'exit' to quit):" << endl;
 
-    // Initialize species dynamically
-    int studentRollNumber = 24; // Replace with actual roll number
+    int studentRollNumber = 24; //Roll Number
     vector<string> species = Meadow::getInstance()->initializeSpecies(studentRollNumber);
 
     while (true) {
@@ -488,7 +484,6 @@ int main() {
     return 0;
 }
 
-// Function to find colony by ID
 AntFarm<Ant>* findColony(int id) {
     for (size_t i = 0; i < colonies.size(); ++i) {
         if (colonies[i]->getId() == id) {
@@ -511,15 +506,13 @@ void handleSpawn(const string& command) {
         return;
     }
 
-    AntFarm<Ant>::Builder builder(colonyCounter, species, 10); // Example room capacity
+    AntFarm<Ant>::Builder builder(colonyCounter, species, 10);
     builder.addRoom(make_unique<SpawningRoom>());
     builder.addRoom(make_unique<RestingRoom>());
     AntFarm<Ant>* farm = builder.build();
 
-    // Add queen explicitly via Meadow
     Meadow::getInstance()->createQueenForColony(farm);
 
-    // Add other ants to the new AntFarm
     for (int i = 0; i < 5; ++i) {
         farm->addAnt(AntFactory::createAnt("Drone"));
     }
@@ -530,7 +523,6 @@ void handleSpawn(const string& command) {
     colonies.push_back(unique_ptr<AntFarm<Ant>>(farm));
     Meadow::getInstance()->addAntFarm(unique_ptr<AntFarm<Ant>>(farm));
 
-    // Add to colony names map (Add this line)
     colonyNames[colonyCounter] = species;
 
     cout << "Spawned AntFarm with ID: " << colonyCounter << endl;
